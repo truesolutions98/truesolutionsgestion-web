@@ -366,7 +366,11 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
       <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerDesktop')" type="button">
         <span class="flag-current"></span><span class="code-current">ES</span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
       </button>
-      <div class="lang-picker-list"></div>
+      <div class="lang-picker-list">
+        <div class="lang-picker-item" onclick="applyLang('es');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="4" fill="#C60B1E"/><rect y="4" width="16" height="4" fill="#FFC400"/><rect y="8" width="16" height="4" fill="#C60B1E"/></svg><span>ES</span></div>
+        <div class="lang-picker-item" onclick="applyLang('en');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#B22234"/><rect width="16" height="0.92" y="0.92" fill="#fff"/><rect width="16" height="0.92" y="2.77" fill="#fff"/><rect width="16" height="0.92" y="4.62" fill="#fff"/><rect width="7" height="6.5" fill="#3C3B6E"/></svg><span>EN</span></div>
+        <div class="lang-picker-item" onclick="applyLang('pt');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#009C3B"/><polygon points="8,1.5 15,6 8,10.5 1,6" fill="#FFDF00"/><circle cx="8" cy="6" r="2.6" fill="#002776"/></svg><span>PT</span></div>
+      </div>
     </div>
   </nav>
   <button class="burger-btn" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
@@ -393,7 +397,11 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
       <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerMobile')" type="button" style="width:100%;justify-content:space-between;">
         <span style="display:flex;align-items:center;gap:6px;"><span class="flag-current"></span><span class="code-current">Español (ES)</span></span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
       </button>
-      <div class="lang-picker-list" style="width:100%;left:0;right:auto;"></div>
+      <div class="lang-picker-list" style="width:100%;left:0;right:auto;">
+        <div class="lang-picker-item" onclick="applyLang('es');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="4" fill="#C60B1E"/><rect y="4" width="16" height="4" fill="#FFC400"/><rect y="8" width="16" height="4" fill="#C60B1E"/></svg><span>Español (ES)</span></div>
+        <div class="lang-picker-item" onclick="applyLang('en');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#B22234"/><rect width="16" height="0.92" y="0.92" fill="#fff"/><rect width="16" height="0.92" y="2.77" fill="#fff"/><rect width="16" height="0.92" y="4.62" fill="#fff"/><rect width="7" height="6.5" fill="#3C3B6E"/></svg><span>English (EN)</span></div>
+        <div class="lang-picker-item" onclick="applyLang('pt');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#009C3B"/><polygon points="8,1.5 15,6 8,10.5 1,6" fill="#FFDF00"/><circle cx="8" cy="6" r="2.6" fill="#002776"/></svg><span>Português (PT)</span></div>
+      </div>
     </div>
   </div>
 </div>
@@ -600,7 +608,11 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
         <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerFooter')" type="button" style="width:140px;justify-content:space-between;">
           <span style="display:flex;align-items:center;gap:6px;"><span class="flag-current"></span><span class="code-current">Español (ES)</span></span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
         </button>
-        <div class="lang-picker-list" style="width:150px;left:0;right:auto;"></div>
+        <div class="lang-picker-list" style="width:170px;left:0;right:auto;">
+          <div class="lang-picker-item" onclick="applyLang('es');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="4" fill="#C60B1E"/><rect y="4" width="16" height="4" fill="#FFC400"/><rect y="8" width="16" height="4" fill="#C60B1E"/></svg><span>Español (ES)</span></div>
+          <div class="lang-picker-item" onclick="applyLang('en');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#B22234"/><rect width="16" height="0.92" y="0.92" fill="#fff"/><rect width="16" height="0.92" y="2.77" fill="#fff"/><rect width="16" height="0.92" y="4.62" fill="#fff"/><rect width="7" height="6.5" fill="#3C3B6E"/></svg><span>English (EN)</span></div>
+          <div class="lang-picker-item" onclick="applyLang('pt');closeAllLangPickers();"><svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#009C3B"/><polygon points="8,1.5 15,6 8,10.5 1,6" fill="#FFDF00"/><circle cx="8" cy="6" r="2.6" fill="#002776"/></svg><span>Português (PT)</span></div>
+        </div>
       </div>
     </div>
     <div class="footer-col">
@@ -1008,7 +1020,6 @@ function applyLang(lang){
 
 function initLang(){
   captureOriginalEs();
-  buildLangPickers();
   var saved = localStorage.getItem('tf_lang') || 'es';
   applyLang(saved);
 }
