@@ -174,7 +174,13 @@ nav{display:flex;align-items:center;gap:28px;}
 .chat-bubble.out{background:var(--accent);color:var(--navy-deep);margin-left:16px;}
 
 .ticket-line{background:var(--navy-deep);border-radius:5px;padding:5px 8px;margin-bottom:5px;}
-.ticket-link{color:var(--accent);text-decoration:underline;font-size:10px;}
+.ticket-link{color:var(--accent);text-decoration:underline;font-size:10px;display:inline-flex;align-items:center;gap:3px;}
+.badge-delivery,.badge-pago{
+  border-radius:10px;padding:2px 8px 2px 6px;font-size:9px;font-weight:600;
+  display:inline-flex;align-items:center;gap:3px;color:#fff;
+}
+.badge-delivery{background:#F97316;}
+.badge-pago{background:#7C3AED;}
 
 .dash-stats{display:flex;gap:6px;margin-bottom:8px;}
 .dash-stat{flex:1;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:5px;padding:6px;}
@@ -219,10 +225,17 @@ nav{display:flex;align-items:center;gap:28px;}
 }
 .diff-card{
   background:var(--navy-deep);border-radius:14px;padding:28px 22px;color:var(--white);
+  transition:transform 0.2s ease;
 }
+.diff-card:hover{transform:translateY(-4px);}
 .diff-card i{font-size:26px;color:var(--accent);margin-bottom:14px;display:block;}
 .diff-card p:first-of-type{font-size:16px;font-weight:600;margin-bottom:6px;}
 .diff-card p:last-of-type{font-size:13px;color:var(--text-muted);line-height:1.5;}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease, transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+header.scrolled{background:rgba(13,27,46,0.98);backdrop-filter:blur(16px);box-shadow:0 2px 16px rgba(0,0,0,0.25);}
 
 @media(max-width:900px){.diff-grid{grid-template-columns:1fr;}}
 
@@ -289,7 +302,8 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
   .hero{padding:110px 5% 60px;}
   .dash-stats{flex-wrap:wrap;}
   .dash-stat{min-width:calc(50% - 6px);}
-  .footer-grid{grid-template-columns:1fr;text-align:center;}
+  .footer-grid{grid-template-columns:1fr 1fr;text-align:left;}
+  .footer-grid > .footer-col:first-child{grid-column:1 / 3;text-align:center;margin-bottom:12px;}
 }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
@@ -310,44 +324,44 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
     True Solutions Gestión
   </div>
   <nav>
-    <div class="nav-item">True Foods <i class="ti ti-chevron-down"></i>
+    <div class="nav-item"><span data-i18n="nav_foods">True Foods</span> <i class="ti ti-chevron-down"></i>
       <div class="dropdown">
-        <a href="#modulos">Menú QR</a>
-        <a href="#modulos">Pedidos online</a>
-        <a href="#modulos">Cocina (KDS)</a>
-        <a href="#modulos">Caja / POS</a>
-        <a href="#modulos">Auditoría</a>
-        <a href="#modulos">Mensajería WhatsApp</a>
-        <a href="#modulos">Delivery</a>
-        <a href="#modulos">Fidelización</a>
+        <a href="#modulos" data-i18n="mod_menu">Menú QR</a>
+        <a href="#modulos" data-i18n="mod_pedidos">Pedidos online</a>
+        <a href="#modulos" data-i18n="mod_cocina">Cocina (KDS)</a>
+        <a href="#modulos" data-i18n="mod_caja">Caja / POS</a>
+        <a href="#modulos" data-i18n="mod_auditoria">Auditoría</a>
+        <a href="#modulos" data-i18n="mod_mensajeria">Mensajería WhatsApp</a>
+        <a href="#modulos" data-i18n="mod_delivery">Delivery</a>
+        <a href="#modulos" data-i18n="mod_fidelizacion">Fidelización</a>
       </div>
     </div>
-    <div class="nav-item" onclick="showPage('cobranza')">True Cobranza</div>
-    <div class="nav-item" onclick="showPage('quienes-somos')">Quiénes somos</div>
-    <div class="nav-item" onclick="showPage('contacto')">Contacto</div>
-    <select class="lang-select"><option>ES</option><option>EN</option></select>
+    <div class="nav-item" onclick="showPage('cobranza')" data-i18n="nav_cobranza">True Cobranza</div>
+    <div class="nav-item" onclick="showPage('quienes-somos')" data-i18n="nav_quienes">Quiénes somos</div>
+    <div class="nav-item" onclick="showPage('contacto')" data-i18n="nav_contacto">Contacto</div>
+    <select class="lang-select" id="langSelectDesktop"><option value="es">ES</option><option value="en">EN</option><option value="pt">PT</option></select>
   </nav>
   <button class="burger-btn" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
 </header>
 
 <!-- MENU MOBILE -->
 <div id="mobileNav" class="mobile-nav">
-  <div class="nav-item" onclick="toggleMobileSubmenu()">True Foods <i class="ti ti-chevron-down"></i></div>
+  <div class="nav-item" onclick="toggleMobileSubmenu()"><span data-i18n="nav_foods">True Foods</span> <i class="ti ti-chevron-down"></i></div>
   <div id="mobileSubmenu" class="mobile-submenu">
-    <a href="#modulos" onclick="toggleMobileNav()">Menú QR</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Pedidos online</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Cocina (KDS)</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Caja / POS</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Auditoría</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Mensajería WhatsApp</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Delivery</a>
-    <a href="#modulos" onclick="toggleMobileNav()">Fidelización</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_menu">Menú QR</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_pedidos">Pedidos online</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_cocina">Cocina (KDS)</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_caja">Caja / POS</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_auditoria">Auditoría</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_mensajeria">Mensajería WhatsApp</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_delivery">Delivery</a>
+    <a href="#modulos" onclick="toggleMobileNav()" data-i18n="mod_fidelizacion">Fidelización</a>
   </div>
-  <a onclick="showPage('cobranza');toggleMobileNav()">True Cobranza</a>
-  <a onclick="showPage('quienes-somos');toggleMobileNav()">Quiénes somos</a>
-  <a onclick="showPage('contacto');toggleMobileNav()">Contacto</a>
+  <a onclick="showPage('cobranza');toggleMobileNav()" data-i18n="nav_cobranza">True Cobranza</a>
+  <a onclick="showPage('quienes-somos');toggleMobileNav()" data-i18n="nav_quienes">Quiénes somos</a>
+  <a onclick="showPage('contacto');toggleMobileNav()" data-i18n="nav_contacto">Contacto</a>
   <div style="padding:12px 6px;">
-    <select class="lang-select"><option>Español (ES)</option><option>English (EN)</option></select>
+    <select class="lang-select" id="langSelectMobile"><option value="es">Español (ES)</option><option value="en">English (EN)</option><option value="pt">Português (PT)</option></select>
   </div>
 </div>
 
@@ -356,8 +370,8 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
 
   <section class="hero">
     <div class="hero-inner">
-      <h1>Toda tu operación en un solo lugar, sin hardware costoso</h1>
-      <p>Todo lo que tu operación necesita: menú digital, pedidos, cocina, caja, auditoría, mensajería y código QR, todo en una sola plataforma.</p>
+      <h1 data-i18n="hero_title">Toda tu operación en un solo lugar, sin hardware costoso</h1>
+      <p data-i18n="hero_sub">Todo lo que tu operación necesita: menú digital, pedidos, cocina, caja, auditoría, mensajería y código QR, todo en una sola plataforma.</p>
 
       <div class="device-row">
 
@@ -367,22 +381,26 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
             <div class="notebook-inner">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                 <span style="background:var(--navy-deep);color:var(--accent);border-radius:5px;padding:2px 8px;font-weight:700;font-family:monospace;font-size:10px;">#0281 <span style="background:var(--whatsapp);color:var(--navy-deep);border-radius:4px;padding:0 5px;margin-left:3px;">WhatsApp</span></span>
-                <span style="color:var(--accent);font-size:10px;">4 min</span>
+                <span style="color:var(--accent);font-size:10px;" data-i18n="tk_time">4 min</span>
               </div>
-              <p style="color:var(--text-muted);font-size:10px;margin-bottom:6px;">Juan · Delivery · Transferencia</p>
-              <div class="ticket-line">1x Hamburguesa doble carne, cheddar — Gs. 25.000</div>
-              <div class="ticket-line">1x Coca Cola — Gs. 5.000</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+                <span style="font-size:10px;" data-i18n="tk_client">Juan</span>
+                <span class="badge-delivery"><i class="ti ti-truck-delivery"></i><span data-i18n="tk_delivery">Delivery</span></span>
+                <span class="badge-pago"><i class="ti ti-credit-card"></i><span data-i18n="tk_pago">Transferencia</span></span>
+              </div>
+              <div class="ticket-line" data-i18n="tk_item1">1x Hamburguesa doble carne, cheddar — Gs. 25.000</div>
+              <div class="ticket-line" data-i18n="tk_item2">1x Coca Cola — Gs. 5.000</div>
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                <span class="ticket-link">📍 Ver ubicación</span>
-                <span class="ticket-link">🧾 Ver comprobante</span>
+                <span class="ticket-link" data-i18n="tk_ubic"><i class="ti ti-map-pin"></i>Ver ubicación</span>
+                <span class="ticket-link" data-i18n="tk_comprobante"><i class="ti ti-receipt"></i>Ver comprobante</span>
               </div>
-              <p class="ticket-link" style="margin-bottom:6px;">▾ Ver conversación completa</p>
-              <div style="text-align:right;font-weight:700;font-size:11px;">Total Gs. 30.000</div>
+              <p class="ticket-link" style="margin-bottom:6px;" data-i18n="tk_verchat"><i class="ti ti-chevron-down"></i>Ver conversación completa</p>
+              <div style="text-align:right;font-weight:700;font-size:11px;" data-i18n="tk_total">Total Gs. 30.000</div>
             </div>
           </div>
           <div class="notebook-base"></div>
           <div class="notebook-foot"></div>
-          <p class="device-label-ext">Comanda de cocina</p>
+          <p class="device-label-ext" data-i18n="lbl_comanda">Comanda de cocina</p>
         </div>
 
         <!-- PHONE: Chat WhatsApp completo -->
@@ -390,24 +408,24 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
           <div class="phone-frame">
             <div class="phone-notch"></div>
             <div class="phone-inner">
-              <div class="chat-bubble in">Buenas noches, ¿siguen abierto?</div>
-              <div class="chat-bubble out">Buenas noches! Seguimos abiertos hasta las 23:00. ¿Querés pedir algo?</div>
-              <div class="chat-bubble in">Si, quisiera una hamburguesa doble carne con una gaseosa de medio, porfa</div>
-              <div class="chat-bubble out">Una gaseosa + una hamburguesa doble carne. Total Gs. 30.000. ¿Te lo mandamos o preferís pasar por el local?</div>
-              <div class="chat-bubble in">Quiero delivery</div>
-              <div class="chat-bubble out">Perfecto, mandame tu ubicación</div>
-              <div class="chat-bubble in">📍 Ubicación compartida</div>
-              <div class="chat-bubble out">Listo, ya tengo tu ubicación. ¿A nombre de quién el pedido?</div>
-              <div class="chat-bubble in">Juan</div>
-              <div class="chat-bubble out">Listo Juan, antes de mandar tu pedido a cocina: ¿transferencia o efectivo?</div>
-              <div class="chat-bubble in">Transferencia</div>
-              <div class="chat-bubble out">Alias: truefoods.py</div>
-              <div class="chat-bubble in">🧾 Comprobante enviado</div>
-              <div class="chat-bubble out">Listo, recibimos tu comprobante. Tu pedido está en cocina, en unos minutos te avisamos cuando esté listo y en camino</div>
-              <div class="chat-bubble in">Muchas gracias</div>
+              <div class="chat-bubble in" data-i18n="c1">Buenas noches, ¿siguen abierto?</div>
+              <div class="chat-bubble out" data-i18n="c2">Buenas noches! Seguimos abiertos hasta las 23:00. ¿Querés pedir algo?</div>
+              <div class="chat-bubble in" data-i18n="c3">Si, quisiera una hamburguesa doble carne con una gaseosa de medio, porfa</div>
+              <div class="chat-bubble out" data-i18n="c4">Una gaseosa + una hamburguesa doble carne. Total Gs. 30.000. ¿Te lo mandamos o preferís pasar por el local?</div>
+              <div class="chat-bubble in" data-i18n="c5">Quiero delivery</div>
+              <div class="chat-bubble out" data-i18n="c6">Perfecto, mandame tu ubicación</div>
+              <div class="chat-bubble in" data-i18n="c7" style="display:flex;align-items:center;gap:4px;"><i class="ti ti-map-pin" style="color:var(--accent);"></i>Ubicación compartida</div>
+              <div class="chat-bubble out" data-i18n="c8">Listo, ya tengo tu ubicación. ¿A nombre de quién el pedido?</div>
+              <div class="chat-bubble in" data-i18n="c9">Juan</div>
+              <div class="chat-bubble out" data-i18n="c10">Listo Juan, antes de mandar tu pedido a cocina: ¿transferencia o efectivo?</div>
+              <div class="chat-bubble in" data-i18n="c11">Transferencia</div>
+              <div class="chat-bubble out" data-i18n="c12">Alias: truefoods.py</div>
+              <div class="chat-bubble in" data-i18n="c13" style="display:flex;align-items:center;gap:4px;"><i class="ti ti-receipt" style="color:var(--accent);"></i>Comprobante enviado</div>
+              <div class="chat-bubble out" data-i18n="c14">Listo, recibimos tu comprobante. Tu pedido está en cocina, en unos minutos te avisamos cuando esté listo y en camino</div>
+              <div class="chat-bubble in" data-i18n="c15">Muchas gracias</div>
             </div>
           </div>
-          <p class="device-label-ext">Chat WhatsApp</p>
+          <p class="device-label-ext" data-i18n="lbl_chat">Chat WhatsApp</p>
         </div>
 
         <!-- TV: Resumen del día -->
@@ -417,39 +435,39 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                 <div>
                   <p style="font-weight:700;font-size:11px;margin-bottom:1px;">Lomitería Top Py</p>
-                  <p style="color:#6B7280;font-size:8px;">domingo, 12 de julio</p>
+                  <p style="color:#6B7280;font-size:8px;" data-i18n="dash_fecha">domingo, 12 de julio</p>
                 </div>
-                <span style="background:#ECFDF5;color:#065F46;border-radius:10px;padding:3px 8px;font-size:8px;font-weight:600;">Caja abierta</span>
+                <span style="background:#ECFDF5;color:#065F46;border-radius:10px;padding:3px 8px;font-size:8px;font-weight:600;" data-i18n="dash_caja">Caja abierta</span>
               </div>
               <div class="dash-stats">
-                <div class="dash-stat"><p>Ingresos hoy</p><p>Gs. 210.000</p></div>
-                <div class="dash-stat"><p>Pedidos</p><p>18</p></div>
-                <div class="dash-stat"><p>Ticket prom.</p><p>Gs. 32.000</p></div>
-                <div class="dash-stat"><p>Mesas libres</p><p>8 / 8</p></div>
+                <div class="dash-stat"><p data-i18n="dash_ingresos">Ingresos hoy</p><p>Gs. 210.000</p></div>
+                <div class="dash-stat"><p data-i18n="dash_pedidos">Pedidos</p><p>18</p></div>
+                <div class="dash-stat"><p data-i18n="dash_ticketprom">Ticket prom.</p><p>Gs. 32.000</p></div>
+                <div class="dash-stat"><p data-i18n="dash_mesas">Mesas libres</p><p>8 / 8</p></div>
               </div>
               <div style="display:flex;gap:8px;">
                 <div class="dash-box" style="flex:1.3;">
-                  <p class="dash-title">Ingresos por canal</p>
+                  <p class="dash-title" data-i18n="dash_canal">Ingresos por canal</p>
                   <div style="display:flex;align-items:flex-end;gap:10px;height:36px;">
                     <div style="width:14px;height:36px;background:var(--navy);border-radius:2px;"></div>
                     <div style="width:14px;height:20px;background:#378ADD;border-radius:2px;"></div>
                     <div style="width:14px;height:9px;background:#F59E0B;border-radius:2px;"></div>
                   </div>
                   <div style="display:flex;gap:8px;margin-top:5px;color:#6B7280;font-size:7.5px;">
-                    <span>■ Mesa</span><span>■ Delivery</span><span>■ Retiro</span>
+                    <span data-i18n="dash_mesa">■ Mesa</span><span data-i18n="dash_delivery">■ Delivery</span><span data-i18n="dash_retiro">■ Retiro</span>
                   </div>
                 </div>
                 <div class="dash-box">
-                  <p class="dash-title">Métodos de pago</p>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:8.5px;"><span>Efectivo</span><span style="font-weight:600;">62%</span></div>
-                  <div style="display:flex;justify-content:space-between;font-size:8.5px;"><span>Transferencia</span><span style="font-weight:600;">38%</span></div>
+                  <p class="dash-title" data-i18n="dash_metpago">Métodos de pago</p>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:8.5px;"><span data-i18n="dash_efectivo">Efectivo</span><span style="font-weight:600;">62%</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:8.5px;"><span data-i18n="dash_transferencia">Transferencia</span><span style="font-weight:600;">38%</span></div>
                 </div>
               </div>
             </div>
           </div>
           <div class="tv-neck"></div>
           <div class="tv-foot"></div>
-          <p class="device-label-ext">Resumen del día</p>
+          <p class="device-label-ext" data-i18n="lbl_resumen">Resumen del día</p>
         </div>
 
       </div>
@@ -459,68 +477,68 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https://menu.truesolutionsgestion.com/registro" alt="Código QR para registrar tu negocio" width="70" height="70">
         </div>
         <div class="cta-text">
-          <p>Registrá tu negocio</p>
-          <p>Escaneá o hacé clic para empezar</p>
+          <p data-i18n="cta_title">Registrá tu negocio</p>
+          <p data-i18n="cta_sub">Escaneá o hacé clic para empezar</p>
         </div>
       </a>
     </div>
   </section>
 
-  <section id="modulos">
-    <p class="section-label">True Foods</p>
-    <h2 class="section-title">Todo lo que necesita tu operación</h2>
+  <section id="modulos" class="reveal">
+    <p class="section-label" data-i18n="lbl_foods">True Foods</p>
+    <h2 class="section-title" data-i18n="mod_title">Todo lo que necesita tu operación</h2>
     <div class="modules-grid">
-      <div class="module-card"><i class="ti ti-qrcode"></i><p>Menú QR</p></div>
-      <div class="module-card"><i class="ti ti-shopping-cart"></i><p>Pedidos online</p></div>
-      <div class="module-card"><i class="ti ti-chef-hat"></i><p>Cocina (KDS)</p></div>
-      <div class="module-card"><i class="ti ti-cash"></i><p>Caja / POS</p></div>
-      <div class="module-card"><i class="ti ti-clipboard-check"></i><p>Auditoría</p></div>
-      <div class="module-card"><i class="ti ti-brand-whatsapp"></i><p>Mensajería</p></div>
-      <div class="module-card"><i class="ti ti-truck-delivery"></i><p>Delivery</p></div>
-      <div class="module-card"><i class="ti ti-gift"></i><p>Fidelización</p></div>
+      <div class="module-card"><i class="ti ti-qrcode"></i><p data-i18n="mod_menu">Menú QR</p></div>
+      <div class="module-card"><i class="ti ti-shopping-cart"></i><p data-i18n="mod_pedidos">Pedidos online</p></div>
+      <div class="module-card"><i class="ti ti-chef-hat"></i><p data-i18n="mod_cocina">Cocina (KDS)</p></div>
+      <div class="module-card"><i class="ti ti-cash"></i><p data-i18n="mod_caja">Caja / POS</p></div>
+      <div class="module-card"><i class="ti ti-clipboard-check"></i><p data-i18n="mod_auditoria">Auditoría</p></div>
+      <div class="module-card"><i class="ti ti-brand-whatsapp"></i><p data-i18n="mod_mensajeria">Mensajería</p></div>
+      <div class="module-card"><i class="ti ti-truck-delivery"></i><p data-i18n="mod_delivery">Delivery</p></div>
+      <div class="module-card"><i class="ti ti-gift"></i><p data-i18n="mod_fidelizacion">Fidelización</p></div>
     </div>
   </section>
 
-  <section id="diferenciadores" style="background:var(--gray-100);">
-    <p class="section-label">Ventajas</p>
-    <h2 class="section-title">Por qué elegirnos</h2>
+  <section id="diferenciadores" class="reveal" style="background:var(--gray-100);">
+    <p class="section-label" data-i18n="lbl_ventajas">Ventajas</p>
+    <h2 class="section-title" data-i18n="diff_title">Por qué elegirnos</h2>
     <div class="diff-grid">
       <div class="diff-card">
         <i class="ti ti-brand-whatsapp"></i>
-        <p>Bot con agente híbrido</p>
-        <p>IA que atiende sola, y pasa a un humano cuando hace falta</p>
+        <p data-i18n="diff1_title">Atención inteligente</p>
+        <p data-i18n="diff1_text">El sistema <span style="color:var(--accent);font-weight:600;">responde automáticamente</span>, y el equipo <span style="color:var(--accent);font-weight:600;">solo interviene</span> <span style="color:var(--accent);font-weight:600;">cuando hace falta</span>, mediante notificaciones en celular, notebook, tablet o TV.</p>
       </div>
       <div class="diff-card">
         <i class="ti ti-devices-off"></i>
-        <p>Sin hardware costoso</p>
-        <p>Nada de buzzers ni comandas físicas, todo resuelto por software</p>
+        <p data-i18n="diff2_title">Implementación sin hardware adicional</p>
+        <p data-i18n="diff2_text">Accedé desde <span style="color:var(--accent);font-weight:600;">cualquier dispositivo</span>, <span style="color:var(--accent);font-weight:600;">sin comprar hardware</span> adicional.</p>
       </div>
       <div class="diff-card">
         <i class="ti ti-map-pin"></i>
-        <p>Soporte local paraguayo</p>
-        <p>Atención directa, 24/7</p>
+        <p data-i18n="diff3_title">Soporte local especializado</p>
+        <p data-i18n="diff3_text">Te acompañamos desde la implementación hasta el uso diario. Soporte cercano, en <span style="color:var(--accent);font-weight:600;">español, portugués e inglés</span>.</p>
       </div>
     </div>
   </section>
 
-  <section class="about-section">
-    <p class="section-label" style="color:var(--accent);">Quiénes somos</p>
+  <section class="about-section reveal">
+    <p class="section-label" style="color:var(--accent);" data-i18n="lbl_quienes">Quiénes somos</p>
     <div class="about-grid" style="margin-top:24px;">
       <img src="globo-terraqueo-quienes-somos.png" alt="True Solutions Gestión opera desde Asunción, Paraguay">
       <div>
-        <p>True Solutions Gestión nació en Asunción como un estudio de automatización y optimización, ayudando a pequeños negocios paraguayos y de la región de América del Sur a optimizar sus procesos.</p>
-        <p>Al ver de cerca los problemas reales de los comedores, restaurantes y todo local gastronómico (pedidos perdidos, comandas en papel, sistemas caros e importados), decidimos construir True Foods: un sistema pensado desde Paraguay, para restaurantes paraguayos y de la región.</p>
-        <p>Operamos desde Asunción, Paraguay, combinando equipos especializados, tecnología aplicada, procesos optimizados y comunicación responsable para entregar resultados consistentes, con un modelo estructurado, escalable y orientado a resultados medibles, independientemente del mercado donde opera tu negocio.</p>
+        <p data-i18n="about_p1">True Solutions Gestión nació en Asunción como un estudio de automatización y optimización, ayudando a pequeños negocios paraguayos y de la región de América del Sur a optimizar sus procesos.</p>
+        <p data-i18n="about_p2">Al ver de cerca los problemas reales de los comedores, restaurantes y todo local gastronómico (pedidos perdidos, comandas en papel, sistemas caros e importados), decidimos construir True Foods: un sistema pensado desde Paraguay, para restaurantes paraguayos y de la región.</p>
+        <p data-i18n="about_p3">Operamos desde Asunción, Paraguay, combinando equipos especializados, tecnología aplicada, procesos optimizados y comunicación responsable para entregar resultados consistentes, con un modelo estructurado, escalable y orientado a resultados medibles, independientemente del mercado donde opera tu negocio.</p>
       </div>
     </div>
   </section>
 
-  <section class="contact-section" id="contacto">
-    <h2>Hablemos de tu negocio</h2>
-    <p>Contanos qué necesitás y te mostramos cómo funciona True Foods en minutos</p>
+  <section class="contact-section reveal" id="contacto">
+    <h2 data-i18n="contact_title">Hablemos de tu negocio</h2>
+    <p data-i18n="contact_sub">Contanos qué necesitás y te mostramos cómo funciona True Foods en minutos</p>
     <div class="contact-row">
       <a href="https://wa.me/595992102202?text=Hola%2C%20quiero%20conocer%20True%20Foods" target="_blank" class="whatsapp-btn">
-        <i class="ti ti-brand-whatsapp"></i> Hablar por WhatsApp
+        <i class="ti ti-brand-whatsapp"></i> <span data-i18n="contact_btn">Hablar por WhatsApp</span>
       </a>
       <a href="https://menu.truesolutionsgestion.com/registro" target="_blank">
         <div style="background:#fff;padding:6px;border-radius:10px;display:inline-block;">
@@ -540,25 +558,25 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
         <div class="logo-badge"><i class="ti ti-tools-kitchen-2"></i></div>
         True Solutions Gestión
       </div>
-      <p style="margin-bottom:8px;">Seleccionar idioma:</p>
-      <select class="lang-select" style="width:140px;"><option>Español (ES)</option><option>English (EN)</option></select>
+      <p style="margin-bottom:8px;" data-i18n="footer_lang">Seleccionar idioma:</p>
+      <select class="lang-select" id="langSelectFooter" style="width:140px;"><option value="es">Español (ES)</option><option value="en">English (EN)</option><option value="pt">Português (PT)</option></select>
     </div>
     <div class="footer-col">
-      <p class="col-title">Compañía</p>
-      <a onclick="showPage('quienes-somos')">Quiénes somos</a>
-      <a onclick="showPage('home')">True Foods</a>
-      <a onclick="showPage('empleos')">Empleos</a>
-      <a onclick="showPage('contacto')">Contacto</a>
+      <p class="col-title" data-i18n="footer_compania">Compañía</p>
+      <a onclick="showPage('quienes-somos')" data-i18n="nav_quienes">Quiénes somos</a>
+      <a onclick="showPage('home')" data-i18n="nav_foods">True Foods</a>
+      <a onclick="showPage('empleos')" data-i18n="footer_empleos">Empleos</a>
+      <a onclick="showPage('contacto')" data-i18n="nav_contacto">Contacto</a>
     </div>
     <div class="footer-col">
-      <p class="col-title">Atribuciones legales</p>
-      <a onclick="showPage('terminos')">Términos y condiciones</a>
-      <a onclick="showPage('privacidad')">Política de privacidad</a>
-      <a onclick="showPage('control-datos')">Control de datos</a>
+      <p class="col-title" data-i18n="footer_legal">Autorizaciones legales</p>
+      <a onclick="showPage('terminos')" data-i18n="footer_terminos">Términos y condiciones</a>
+      <a onclick="showPage('privacidad')" data-i18n="footer_privacidad">Política de privacidad</a>
+      <a onclick="showPage('control-datos')" data-i18n="footer_control">Control de datos</a>
     </div>
   </div>
   <div class="footer-social">
-    <p>Seguinos</p>
+    <p data-i18n="footer_seguinos">Seguinos</p>
     <div class="footer-social-icons">
       <a href="https://instagram.com/truefoodsapp" target="_blank" aria-label="Instagram">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
@@ -575,117 +593,117 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
 
 <!-- PÁGINA: EMPLEOS -->
 <div id="empleos" class="legal-page">
-  <h1>Empleos</h1>
-  <p>Estas son las áreas que tenemos actualmente. A medida que True Foods crezca, iremos sumando más áreas y oportunidades. Por el momento no tenemos puestos abiertos, pero podés enviarnos tu postulación espontánea a soporte@truesolutionsgestion.com o por WhatsApp.</p>
+  <h1 data-i18n="emp_h1">Empleos</h1>
+  <p data-i18n="emp_intro">Estas son las áreas que tenemos actualmente. A medida que True Foods crezca, iremos sumando más áreas y oportunidades. Por el momento no tenemos puestos abiertos, pero podés enviarnos tu postulación espontánea a soporte@truesolutionsgestion.com o por WhatsApp.</p>
 
-  <h2>Operaciones y éxito del cliente</h2>
+  <h2 data-i18n="emp_h2_1">Operaciones y éxito del cliente</h2>
   <ul>
-    <li>Especialista en soporte técnico (24/7) — <em>Cubierto</em></li>
-    <li>Ejecutivo de onboarding / implementación — <em>Cubierto</em></li>
-    <li>Customer Success Manager — <em>Cubierto</em></li>
+    <li><span data-i18n="emp_li_1">Especialista en soporte técnico (24/7)</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_2">Ejecutivo de onboarding / implementación</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_3">Customer Success Manager</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
   </ul>
 
-  <h2>Comercial y marketing</h2>
+  <h2 data-i18n="emp_h2_2">Comercial y marketing</h2>
   <ul>
-    <li>Representante de ventas (SDR / Account Executive) — <em>Cubierto</em></li>
-    <li>Especialista en marketing B2B — <em>Cubierto</em></li>
+    <li><span data-i18n="emp_li_4">Representante de ventas (SDR / Account Executive)</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_5">Especialista en marketing B2B</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
   </ul>
 
-  <h2>Tecnología y producto</h2>
+  <h2 data-i18n="emp_h2_3">Tecnología y producto</h2>
   <ul>
-    <li>Desarrollador Front-End / Back-End / Full-Stack — <em>Cubierto</em></li>
-    <li>Diseñador UX/UI — <em>Cubierto</em></li>
-    <li>Product Manager — <em>Cubierto</em></li>
-    <li>Ingeniero DevOps / Infraestructura — <em>Cubierto</em></li>
+    <li><span data-i18n="emp_li_6">Desarrollador Front-End / Back-End / Full-Stack</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_7">Diseñador UX/UI</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_8">Product Manager</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
+    <li><span data-i18n="emp_li_9">Ingeniero DevOps / Infraestructura</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
   </ul>
 
-  <h2>Administración y finanzas</h2>
+  <h2 data-i18n="emp_h2_4">Administración y finanzas</h2>
   <ul>
-    <li>Analista de facturación y cobranzas — <em>Cubierto</em></li>
+    <li><span data-i18n="emp_li_10">Analista de facturación y cobranzas</span> — <em data-i18n="emp_cubierto">Cubierto</em></li>
   </ul>
 
-  <a class="back-link" onclick="showPage('home')">← Volver al inicio</a>
+  <a class="back-link" onclick="showPage('home')" data-i18n="back_link">← Volver al inicio</a>
 </div>
 
 <!-- PÁGINA: POLÍTICA DE PRIVACIDAD -->
 <div id="privacidad" class="legal-page">
-  <h1>Política de Privacidad</h1>
-  <p><strong>True Solutions Gestión</strong> — Última actualización: julio 2026</p>
-  <p><strong>Responsable del tratamiento:</strong> True Solutions Gestión</p>
-  <p><strong>Domicilio:</strong> Asunción, Paraguay</p>
-  <p><strong>Contacto:</strong> soporte@truesolutionsgestion.com</p>
+  <h1 data-i18n="priv_h1">Política de Privacidad</h1>
+  <p><strong>True Solutions Gestión</strong> — <span data-i18n="priv_update">Última actualización: julio 2026</span></p>
+  <p><strong data-i18n="priv_resp_label">Responsable del tratamiento:</strong> True Solutions Gestión</p>
+  <p><strong data-i18n="priv_dom_label">Domicilio:</strong> Asunción, Paraguay</p>
+  <p><strong data-i18n="priv_contact_label">Contacto:</strong> soporte@truesolutionsgestion.com</p>
 
-  <h2>1. Introducción</h2>
-  <p>True Solutions Gestión (en adelante, "nosotros" o "la Empresa") ofrece True Foods, un sistema de gestión para restaurantes y comedores, y servicios de gestión de cobranza a través de True Cobranza. Nos comprometemos a proteger la privacidad y los datos personales de nuestros usuarios, clientes y visitantes del sitio web.</p>
+  <h2 data-i18n="priv_h2_1">1. Introducción</h2>
+  <p data-i18n="priv_p1">True Solutions Gestión (en adelante, "nosotros" o "la Empresa") ofrece True Foods, un sistema de gestión para restaurantes y comedores, y servicios de gestión de cobranza a través de True Cobranza. Nos comprometemos a proteger la privacidad y los datos personales de nuestros usuarios, clientes y visitantes del sitio web.</p>
 
-  <h2>2. Información que recopilamos</h2>
-  <p>Cuando utilizás nuestros servicios (True Foods o True Cobranza), o nos contactás por WhatsApp, podemos recopilar:</p>
+  <h2 data-i18n="priv_h2_2">2. Información que recopilamos</h2>
+  <p data-i18n="priv_p2">Cuando utilizás nuestros servicios (True Foods o True Cobranza), o nos contactás por WhatsApp, podemos recopilar:</p>
   <ul>
-    <li>Nombre y datos de contacto (teléfono, WhatsApp, correo electrónico)</li>
-    <li>Nombre del negocio y datos operativos (menú, pedidos, ubicación de entrega)</li>
-    <li>Contenido de mensajes enviados a través de WhatsApp, Messenger o Instagram</li>
-    <li>Datos de uso de la plataforma (pedidos, transacciones, auditoría)</li>
+    <li data-i18n="priv_li1">Nombre y datos de contacto (teléfono, WhatsApp, correo electrónico)</li>
+    <li data-i18n="priv_li2">Nombre del negocio y datos operativos (menú, pedidos, ubicación de entrega)</li>
+    <li data-i18n="priv_li3">Contenido de mensajes enviados a través de WhatsApp, Messenger o Instagram</li>
+    <li data-i18n="priv_li4">Datos de uso de la plataforma (pedidos, transacciones, auditoría)</li>
   </ul>
 
-  <h2>3. Finalidades del tratamiento</h2>
+  <h2 data-i18n="priv_h2_3">3. Finalidades del tratamiento</h2>
   <ul>
-    <li>Brindar el servicio de True Foods (pedidos, cocina, caja, delivery, fidelización)</li>
-    <li>Responder consultas comerciales y de soporte</li>
-    <li>Procesar pedidos y comunicaciones automatizadas vía WhatsApp</li>
-    <li>Cumplir obligaciones legales y regulatorias</li>
+    <li data-i18n="priv_li5">Brindar el servicio de True Foods (pedidos, cocina, caja, delivery, fidelización)</li>
+    <li data-i18n="priv_li6">Responder consultas comerciales y de soporte</li>
+    <li data-i18n="priv_li7">Procesar pedidos y comunicaciones automatizadas vía WhatsApp</li>
+    <li data-i18n="priv_li8">Cumplir obligaciones legales y regulatorias</li>
   </ul>
 
-  <h2>4. Datos recopilados a través de Meta (WhatsApp, Facebook e Instagram)</h2>
-  <p>Utilizamos la API de WhatsApp Business, Messenger e Instagram para operar el bot conversacional de True Foods y brindar atención al cliente. A través de estas APIs podemos recopilar el identificador de usuario, nombre de perfil, contenido de los mensajes, comentarios públicos y fecha/hora de interacción. No accedemos a información adicional del perfil más allá de lo necesario para responder la consulta o procesar el pedido.</p>
-  <p>Los mensajes se almacenan de forma interna, con acceso restringido al personal autorizado. No compartimos, vendemos ni cedemos esta información a terceros con fines comerciales. El uso de estas APIs cumple con las Condiciones de la Plataforma de Meta y sus Políticas para Desarrolladores.</p>
+  <h2 data-i18n="priv_h2_4">4. Datos recopilados a través de Meta (WhatsApp, Facebook e Instagram)</h2>
+  <p data-i18n="priv_p3">Utilizamos la API de WhatsApp Business, Messenger e Instagram para operar el bot conversacional de True Foods y brindar atención al cliente. A través de estas APIs podemos recopilar el identificador de usuario, nombre de perfil, contenido de los mensajes, comentarios públicos y fecha/hora de interacción. No accedemos a información adicional del perfil más allá de lo necesario para responder la consulta o procesar el pedido.</p>
+  <p data-i18n="priv_p4">Los mensajes se almacenan de forma interna, con acceso restringido al personal autorizado. No compartimos, vendemos ni cedemos esta información a terceros con fines comerciales. El uso de estas APIs cumple con las Condiciones de la Plataforma de Meta y sus Políticas para Desarrolladores.</p>
 
-  <h2>5. Sus derechos</h2>
-  <p>Como titular de datos personales, tenés derecho a acceder, rectificar, suprimir y oponerte al tratamiento de tus datos. Para ejercer estos derechos, contactanos en soporte@truesolutionsgestion.com.</p>
+  <h2 data-i18n="priv_h2_5">5. Sus derechos</h2>
+  <p data-i18n="priv_p5">Como titular de datos personales, tenés derecho a acceder, rectificar, suprimir y oponerte al tratamiento de tus datos. Para ejercer estos derechos, contactanos en soporte@truesolutionsgestion.com.</p>
 
-  <a class="back-link" onclick="showPage('home')">← Volver al inicio</a>
+  <a class="back-link" onclick="showPage('home')" data-i18n="back_link">← Volver al inicio</a>
 </div>
 
 <!-- PÁGINA: TÉRMINOS Y CONDICIONES -->
 <div id="terminos" class="legal-page">
-  <h1>Términos y condiciones</h1>
-  <p>Última actualización: julio 2026</p>
-  <p>Al utilizar True Foods o los servicios de True Solutions Gestión, aceptás los presentes términos.</p>
+  <h1 data-i18n="term_h1">Términos y condiciones</h1>
+  <p data-i18n="term_update">Última actualización: julio 2026</p>
+  <p data-i18n="term_intro">Al utilizar True Foods o los servicios de True Solutions Gestión, aceptás los presentes términos.</p>
 
-  <h2>1. Servicio</h2>
-  <p>True Foods es un sistema de gestión (SaaS) para restaurantes, comedores y locales gastronómicos, que incluye menú digital, pedidos, cocina, caja, auditoría, delivery, fidelización y mensajería integrada vía WhatsApp.</p>
+  <h2 data-i18n="term_h2_1">1. Servicio</h2>
+  <p data-i18n="term_p1">True Foods es un sistema de gestión (SaaS) para restaurantes, comedores y locales gastronómicos, que incluye menú digital, pedidos, cocina, caja, auditoría, delivery, fidelización y mensajería integrada vía WhatsApp.</p>
 
-  <h2>2. Uso del servicio</h2>
-  <p>El cliente se compromete a utilizar la plataforma de forma lícita y a no emplear el sistema para fines fraudulentos o que infrinjan derechos de terceros.</p>
+  <h2 data-i18n="term_h2_2">2. Uso del servicio</h2>
+  <p data-i18n="term_p2">El cliente se compromete a utilizar la plataforma de forma lícita y a no emplear el sistema para fines fraudulentos o que infrinjan derechos de terceros.</p>
 
-  <h2>3. Planes y pagos</h2>
-  <p>True Foods ofrece distintos planes de suscripción mensual. Los detalles y condiciones específicas se informan al momento de la contratación.</p>
+  <h2 data-i18n="term_h2_3">3. Planes y pagos</h2>
+  <p data-i18n="term_p3">True Foods ofrece distintos planes de suscripción mensual. Los detalles y condiciones específicas se informan al momento de la contratación.</p>
 
-  <h2>4. Contacto</h2>
-  <p>Para consultas sobre estos términos, escribinos a soporte@truesolutionsgestion.com.</p>
+  <h2 data-i18n="term_h2_4">4. Contacto</h2>
+  <p data-i18n="term_p4">Para consultas sobre estos términos, escribinos a soporte@truesolutionsgestion.com.</p>
 
-  <a class="back-link" onclick="showPage('home')">← Volver al inicio</a>
+  <a class="back-link" onclick="showPage('home')" data-i18n="back_link">← Volver al inicio</a>
 </div>
 
 <!-- PÁGINA: CONTROL DE DATOS -->
 <div id="control-datos" class="legal-page">
-  <h1>Control de datos</h1>
-  <p>True Solutions Gestión te permite gestionar tus datos personales en cualquier momento.</p>
+  <h1 data-i18n="ctrl_h1">Control de datos</h1>
+  <p data-i18n="ctrl_intro">True Solutions Gestión te permite gestionar tus datos personales en cualquier momento.</p>
 
-  <h2>1. Cómo ejercer tus derechos</h2>
+  <h2 data-i18n="ctrl_h2_1">1. Cómo ejercer tus derechos</h2>
   <ul>
-    <li>Acceder a los datos personales que tenemos sobre vos</li>
-    <li>Solicitar la corrección de datos inexactos o incompletos</li>
-    <li>Solicitar la eliminación de tus datos personales</li>
-    <li>Oponerte al tratamiento de tus datos para determinados fines</li>
+    <li data-i18n="ctrl_li1">Acceder a los datos personales que tenemos sobre vos</li>
+    <li data-i18n="ctrl_li2">Solicitar la corrección de datos inexactos o incompletos</li>
+    <li data-i18n="ctrl_li3">Solicitar la eliminación de tus datos personales</li>
+    <li data-i18n="ctrl_li4">Oponerte al tratamiento de tus datos para determinados fines</li>
   </ul>
 
-  <h2>2. Eliminación de datos de Meta (WhatsApp / Instagram / Facebook)</h2>
-  <p>Si interactuaste con nosotros a través de WhatsApp, Messenger o Instagram y querés que eliminemos esos datos, enviá tu solicitud a soporte@truesolutionsgestion.com indicando tu nombre de usuario y la red social desde la cual nos contactaste. Procesamos las solicitudes en un plazo razonable.</p>
+  <h2 data-i18n="ctrl_h2_2">2. Eliminación de datos de Meta (WhatsApp / Instagram / Facebook)</h2>
+  <p data-i18n="ctrl_p1">Si interactuaste con nosotros a través de WhatsApp, Messenger o Instagram y querés que eliminemos esos datos, enviá tu solicitud a soporte@truesolutionsgestion.com indicando tu nombre de usuario y la red social desde la cual nos contactaste. Procesamos las solicitudes en un plazo razonable.</p>
 
-  <h2>3. Contacto</h2>
-  <p>Correo: soporte@truesolutionsgestion.com<br>Teléfono / WhatsApp: +595 992 102202<br>Dirección: Asunción, Paraguay</p>
+  <h2 data-i18n="ctrl_h2_3">3. Contacto</h2>
+  <p data-i18n="ctrl_p2">Correo: soporte@truesolutionsgestion.com<br>Teléfono / WhatsApp: +595 992 102202<br>Dirección: Asunción, Paraguay</p>
 
-  <a class="back-link" onclick="showPage('home')">← Volver al inicio</a>
+  <a class="back-link" onclick="showPage('home')" data-i18n="back_link">← Volver al inicio</a>
 </div>
 
 <!-- PÁGINA: QUIÉNES SOMOS (redirige a sección del home) -->
@@ -696,6 +714,222 @@ function toggleMobileNav(){
 function toggleMobileSubmenu(){
   document.getElementById('mobileSubmenu').classList.toggle('open');
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(function(el){ observer.observe(el); });
+
+  var header = document.querySelector('header');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 30){ header.classList.add('scrolled'); }
+    else { header.classList.remove('scrolled'); }
+  });
+
+  initLang();
+});
+
+var translations = {
+  en: {
+    nav_foods:"True Foods", nav_cobranza:"True Collections", nav_quienes:"About us", nav_contacto:"Contact",
+    mod_menu:"QR Menu", mod_pedidos:"Online orders", mod_cocina:"Kitchen (KDS)", mod_caja:"Cashier / POS",
+    mod_auditoria:"Auditing", mod_mensajeria:"Messaging", mod_delivery:"Delivery", mod_fidelizacion:"Loyalty",
+    hero_title:"Your entire operation in one place, no costly hardware",
+    hero_sub:"Everything your operation needs: digital menu, orders, kitchen, cashier, auditing, messaging and QR code, all on a single platform.",
+    cta_title:"Register your business", cta_sub:"Scan or click to get started",
+    lbl_foods:"True Foods", mod_title:"Everything your operation needs",
+    lbl_ventajas:"Advantages", diff_title:"Why choose us",
+    diff1_title:"Smart service", diff1_text:"The system <span style=\"color:var(--accent);font-weight:600;\">responds automatically</span>, and the team <span style=\"color:var(--accent);font-weight:600;\">only steps in</span> <span style=\"color:var(--accent);font-weight:600;\">when it's really needed</span>, through notifications on phone, laptop, tablet or TV.",
+    diff2_title:"No extra hardware needed", diff2_text:"Access it from <span style=\"color:var(--accent);font-weight:600;\">any device</span>, <span style=\"color:var(--accent);font-weight:600;\">no hardware purchase</span> required.",
+    diff3_title:"Specialized local support", diff3_text:"We're with you from setup to daily use. Close support, in <span style=\"color:var(--accent);font-weight:600;\">Spanish, Portuguese and English</span>.",
+    lbl_quienes:"About us",
+    about_p1:"True Solutions Gestión was founded in Asunción as an automation and optimization studio, helping small Paraguayan and South American businesses streamline their processes.",
+    about_p2:"After seeing firsthand the real problems faced by canteens, restaurants and any food business (lost orders, paper tickets, expensive imported systems), we decided to build True Foods: a system designed from Paraguay, for restaurants across Paraguay and the region.",
+    about_p3:"We operate from Asunción, Paraguay, combining specialized teams, applied technology, optimized processes and responsible communication to deliver consistent results, with a structured, scalable model oriented to measurable outcomes, regardless of the market your business operates in.",
+    contact_title:"Let's talk about your business", contact_sub:"Tell us what you need and we'll show you how True Foods works in minutes",
+    contact_btn:"Talk on WhatsApp",
+    footer_lang:"Select language:", footer_compania:"Company", footer_empleos:"Careers",
+    footer_legal:"Legal authorizations", footer_terminos:"Terms and conditions", footer_privacidad:"Privacy policy",
+    footer_control:"Data control", footer_seguinos:"Follow us",
+    lbl_comanda:"Kitchen ticket", lbl_chat:"WhatsApp chat", lbl_resumen:"Daily summary",
+    tk_time:"4 min", tk_client:"John", tk_delivery:"Delivery", tk_pago:"Bank transfer",
+    tk_item1:"1x Double cheeseburger, cheddar — Gs. 25,000", tk_item2:"1x Coca Cola — Gs. 5,000",
+    tk_ubic:"<i class=\"ti ti-map-pin\"></i>View location", tk_comprobante:"<i class=\"ti ti-receipt\"></i>View receipt", tk_verchat:"<i class=\"ti ti-chevron-down\"></i>View full conversation",
+    tk_total:"Total Gs. 30,000",
+    c1:"Good evening, are you still open?",
+    c2:"Good evening! We're open until 11:00 PM. Would you like to order something?",
+    c3:"Yes, I'd like a double cheeseburger with a medium soda, please",
+    c4:"One soda + one double cheeseburger. Total Gs. 30,000. Should we deliver it or would you rather pick it up?",
+    c5:"I'd like delivery",
+    c6:"Perfect, send me your location",
+    c7:"<i class=\"ti ti-map-pin\" style=\"color:var(--accent);\"></i>Location shared",
+    c8:"Got it, I have your location. What name should I put the order under?",
+    c9:"John",
+    c10:"Alright John, before we send your order to the kitchen: bank transfer or cash?",
+    c11:"Bank transfer",
+    c12:"Alias: truefoods.py",
+    c13:"<i class=\"ti ti-receipt\" style=\"color:var(--accent);\"></i>Receipt sent",
+    c14:"Got it, we received your receipt. Your order is in the kitchen, we'll let you know in a few minutes when it's ready and on its way",
+    c15:"Thank you very much",
+    dash_fecha:"Sunday, July 12", dash_caja:"Register open",
+    dash_ingresos:"Revenue today", dash_pedidos:"Orders", dash_ticketprom:"Avg. ticket", dash_mesas:"Free tables",
+    dash_canal:"Revenue by channel", dash_mesa:"■ Table", dash_delivery:"■ Delivery", dash_retiro:"■ Pickup",
+    dash_metpago:"Payment methods", dash_efectivo:"Cash", dash_transferencia:"Bank transfer",
+    back_link:"← Back to home",
+    emp_h1:"Careers", emp_intro:"These are the areas we currently have. As True Foods grows, we'll add more areas and opportunities. Right now we have no open positions, but you can send us a spontaneous application at soporte@truesolutionsgestion.com or via WhatsApp.",
+    emp_h2_1:"Operations and customer success", emp_h2_2:"Sales and marketing", emp_h2_3:"Technology and product", emp_h2_4:"Administration and finance",
+    emp_li_1:"Technical support specialist (24/7)", emp_li_2:"Onboarding / implementation executive", emp_li_3:"Customer Success Manager",
+    emp_li_4:"Sales representative (SDR / Account Executive)", emp_li_5:"B2B marketing specialist",
+    emp_li_6:"Front-End / Back-End / Full-Stack developer", emp_li_7:"UX/UI Designer", emp_li_8:"Product Manager", emp_li_9:"DevOps / Infrastructure engineer",
+    emp_li_10:"Billing and collections analyst", emp_cubierto:"Filled",
+    priv_h1:"Privacy Policy", priv_update:"Last updated: July 2026",
+    priv_resp_label:"Data controller:", priv_dom_label:"Address:", priv_contact_label:"Contact:",
+    priv_h2_1:"1. Introduction", priv_p1:"True Solutions Gestión (hereinafter, \"we\" or \"the Company\") offers True Foods, a management system for restaurants and canteens, and debt collection services through True Cobranza. We are committed to protecting the privacy and personal data of our users, customers and website visitors.",
+    priv_h2_2:"2. Information we collect", priv_p2:"When you use our services (True Foods or True Cobranza), or contact us via WhatsApp, we may collect:",
+    priv_li1:"Name and contact details (phone, WhatsApp, email)", priv_li2:"Business name and operational data (menu, orders, delivery location)",
+    priv_li3:"Content of messages sent through WhatsApp, Messenger or Instagram", priv_li4:"Platform usage data (orders, transactions, auditing)",
+    priv_h2_3:"3. Purposes of processing", priv_li5:"Providing the True Foods service (orders, kitchen, cashier, delivery, loyalty)",
+    priv_li6:"Responding to commercial and support inquiries", priv_li7:"Processing orders and automated communications via WhatsApp",
+    priv_li8:"Complying with legal and regulatory obligations",
+    priv_h2_4:"4. Data collected through Meta (WhatsApp, Facebook and Instagram)",
+    priv_p3:"We use the WhatsApp Business, Messenger and Instagram APIs to operate the True Foods conversational bot and provide customer service. Through these APIs we may collect the user identifier, profile name, message content, public comments and date/time of interaction. We do not access additional profile information beyond what is necessary to respond to the inquiry or process the order.",
+    priv_p4:"Messages are stored internally, with access restricted to authorized staff. We do not share, sell or transfer this information to third parties for commercial purposes. The use of these APIs complies with Meta's Platform Terms and Developer Policies.",
+    priv_h2_5:"5. Your rights", priv_p5:"As a data subject, you have the right to access, rectify, erase and object to the processing of your data. To exercise these rights, contact us at soporte@truesolutionsgestion.com.",
+    term_h1:"Terms and conditions", term_update:"Last updated: July 2026", term_intro:"By using True Foods or True Solutions Gestión's services, you accept these terms.",
+    term_h2_1:"1. Service", term_p1:"True Foods is a management system (SaaS) for restaurants, canteens and any food business, including digital menu, orders, kitchen, cashier, auditing, delivery, loyalty and messaging integrated via WhatsApp.",
+    term_h2_2:"2. Use of the service", term_p2:"The customer agrees to use the platform lawfully and not to use the system for fraudulent purposes or in violation of third-party rights.",
+    term_h2_3:"3. Plans and payments", term_p3:"True Foods offers different monthly subscription plans. Specific details and conditions are provided at the time of contracting.",
+    term_h2_4:"4. Contact", term_p4:"For questions about these terms, write to us at soporte@truesolutionsgestion.com.",
+    ctrl_h1:"Data control", ctrl_intro:"True Solutions Gestión allows you to manage your personal data at any time.",
+    ctrl_h2_1:"1. How to exercise your rights",
+    ctrl_li1:"Access the personal data we hold about you", ctrl_li2:"Request correction of inaccurate or incomplete data",
+    ctrl_li3:"Request deletion of your personal data", ctrl_li4:"Object to the processing of your data for certain purposes",
+    ctrl_h2_2:"2. Deleting data from Meta (WhatsApp / Instagram / Facebook)",
+    ctrl_p1:"If you interacted with us through WhatsApp, Messenger or Instagram and want us to delete that data, send your request to soporte@truesolutionsgestion.com stating your username and the social network you contacted us from. We process requests within a reasonable timeframe.",
+    ctrl_h2_3:"3. Contact", ctrl_p2:"Email: soporte@truesolutionsgestion.com<br>Phone / WhatsApp: +595 992 102202<br>Address: Asunción, Paraguay"
+  },
+  pt: {
+    nav_foods:"True Foods", nav_cobranza:"True Cobrança", nav_quienes:"Quem somos", nav_contacto:"Contato",
+    mod_menu:"Cardápio QR", mod_pedidos:"Pedidos online", mod_cocina:"Cozinha (KDS)", mod_caja:"Caixa / PDV",
+    mod_auditoria:"Auditoria", mod_mensajeria:"Mensageria", mod_delivery:"Delivery", mod_fidelizacion:"Fidelização",
+    hero_title:"Toda a sua operação em um só lugar, sem hardware caro",
+    hero_sub:"Tudo o que a sua operação precisa: cardápio digital, pedidos, cozinha, caixa, auditoria, mensageria e código QR, tudo em uma única plataforma.",
+    cta_title:"Cadastre seu negócio", cta_sub:"Escaneie ou clique para começar",
+    lbl_foods:"True Foods", mod_title:"Tudo o que sua operação precisa",
+    lbl_ventajas:"Vantagens", diff_title:"Por que nos escolher",
+    diff1_title:"Atendimento inteligente", diff1_text:"O sistema <span style=\"color:var(--accent);font-weight:600;\">responde automaticamente</span>, e a equipe <span style=\"color:var(--accent);font-weight:600;\">só intervém</span> <span style=\"color:var(--accent);font-weight:600;\">quando realmente necessário</span>, por meio de notificações no celular, notebook, tablet ou TV.",
+    diff2_title:"Implementação sem hardware adicional", diff2_text:"Acesse de <span style=\"color:var(--accent);font-weight:600;\">qualquer dispositivo</span>, <span style=\"color:var(--accent);font-weight:600;\">sem comprar hardware</span> adicional.",
+    diff3_title:"Suporte local especializado", diff3_text:"Te acompanhamos desde a implementação até o uso diário. Suporte próximo, em <span style=\"color:var(--accent);font-weight:600;\">espanhol, português e inglês</span>.",
+    lbl_quienes:"Quem somos",
+    about_p1:"A True Solutions Gestión nasceu em Assunção como um estúdio de automação e otimização, ajudando pequenos negócios paraguaios e da região da América do Sul a otimizar seus processos.",
+    about_p2:"Ao ver de perto os problemas reais de refeitórios, restaurantes e qualquer estabelecimento gastronômico (pedidos perdidos, comandas em papel, sistemas caros e importados), decidimos construir a True Foods: um sistema pensado a partir do Paraguai, para restaurantes paraguaios e da região.",
+    about_p3:"Operamos a partir de Assunção, Paraguai, combinando equipes especializadas, tecnologia aplicada, processos otimizados e comunicação responsável para entregar resultados consistentes, com um modelo estruturado, escalável e orientado a resultados mensuráveis, independentemente do mercado onde seu negócio opera.",
+    contact_title:"Vamos falar sobre o seu negócio", contact_sub:"Conte o que você precisa e mostramos como a True Foods funciona em minutos",
+    contact_btn:"Falar no WhatsApp",
+    footer_lang:"Selecionar idioma:", footer_compania:"Empresa", footer_empleos:"Vagas",
+    footer_legal:"Autorizações legais", footer_terminos:"Termos e condições", footer_privacidad:"Política de privacidade",
+    footer_control:"Controle de dados", footer_seguinos:"Siga-nos",
+    lbl_comanda:"Comanda da cozinha", lbl_chat:"Chat WhatsApp", lbl_resumen:"Resumo do dia",
+    tk_time:"4 min", tk_client:"João", tk_delivery:"Delivery", tk_pago:"Transferência",
+    tk_item1:"1x Hambúrguer duplo, cheddar — Gs. 25.000", tk_item2:"1x Coca-Cola — Gs. 5.000",
+    tk_ubic:"<i class=\"ti ti-map-pin\"></i>Ver localização", tk_comprobante:"<i class=\"ti ti-receipt\"></i>Ver comprovante", tk_verchat:"<i class=\"ti ti-chevron-down\"></i>Ver conversa completa",
+    tk_total:"Total Gs. 30.000",
+    c1:"Boa noite, ainda estão abertos?",
+    c2:"Boa noite! Estamos abertos até as 23:00. Quer pedir algo?",
+    c3:"Sim, gostaria de um hambúrguer duplo com um refrigerante médio, por favor",
+    c4:"Um refrigerante + um hambúrguer duplo. Total Gs. 30.000. Enviamos ou prefere retirar no local?",
+    c5:"Quero delivery",
+    c6:"Perfeito, me envie sua localização",
+    c7:"<i class=\"ti ti-map-pin\" style=\"color:var(--accent);\"></i>Localização compartilhada",
+    c8:"Pronto, já tenho sua localização. Em nome de quem fica o pedido?",
+    c9:"João",
+    c10:"Pronto João, antes de enviar seu pedido à cozinha: transferência ou dinheiro?",
+    c11:"Transferência",
+    c12:"Alias: truefoods.py",
+    c13:"<i class=\"ti ti-receipt\" style=\"color:var(--accent);\"></i>Comprovante enviado",
+    c14:"Pronto, recebemos seu comprovante. Seu pedido está na cozinha, em alguns minutos avisamos quando estiver pronto e a caminho",
+    c15:"Muito obrigado",
+    dash_fecha:"domingo, 12 de julho", dash_caja:"Caixa aberto",
+    dash_ingresos:"Receita hoje", dash_pedidos:"Pedidos", dash_ticketprom:"Ticket médio", dash_mesas:"Mesas livres",
+    dash_canal:"Receita por canal", dash_mesa:"■ Mesa", dash_delivery:"■ Delivery", dash_retiro:"■ Retirada",
+    dash_metpago:"Métodos de pagamento", dash_efectivo:"Dinheiro", dash_transferencia:"Transferência",
+    back_link:"← Voltar ao início",
+    emp_h1:"Vagas", emp_intro:"Estas são as áreas que temos atualmente. À medida que a True Foods crescer, iremos somando mais áreas e oportunidades. No momento não temos vagas abertas, mas você pode nos enviar sua candidatura espontânea em soporte@truesolutionsgestion.com ou pelo WhatsApp.",
+    emp_h2_1:"Operações e sucesso do cliente", emp_h2_2:"Comercial e marketing", emp_h2_3:"Tecnologia e produto", emp_h2_4:"Administração e finanças",
+    emp_li_1:"Especialista em suporte técnico (24/7)", emp_li_2:"Executivo de onboarding / implementação", emp_li_3:"Customer Success Manager",
+    emp_li_4:"Representante de vendas (SDR / Account Executive)", emp_li_5:"Especialista em marketing B2B",
+    emp_li_6:"Desenvolvedor Front-End / Back-End / Full-Stack", emp_li_7:"Designer UX/UI", emp_li_8:"Product Manager", emp_li_9:"Engenheiro DevOps / Infraestrutura",
+    emp_li_10:"Analista de faturamento e cobrança", emp_cubierto:"Preenchido",
+    priv_h1:"Política de Privacidade", priv_update:"Última atualização: julho de 2026",
+    priv_resp_label:"Responsável pelo tratamento:", priv_dom_label:"Endereço:", priv_contact_label:"Contato:",
+    priv_h2_1:"1. Introdução", priv_p1:"A True Solutions Gestión (doravante \"nós\" ou \"a Empresa\") oferece a True Foods, um sistema de gestão para restaurantes e refeitórios, e serviços de gestão de cobrança por meio da True Cobranza. Estamos comprometidos em proteger a privacidade e os dados pessoais de nossos usuários, clientes e visitantes do site.",
+    priv_h2_2:"2. Informações que coletamos", priv_p2:"Ao utilizar nossos serviços (True Foods ou True Cobranza), ou ao nos contatar pelo WhatsApp, podemos coletar:",
+    priv_li1:"Nome e dados de contato (telefone, WhatsApp, e-mail)", priv_li2:"Nome do negócio e dados operacionais (cardápio, pedidos, local de entrega)",
+    priv_li3:"Conteúdo de mensagens enviadas via WhatsApp, Messenger ou Instagram", priv_li4:"Dados de uso da plataforma (pedidos, transações, auditoria)",
+    priv_h2_3:"3. Finalidades do tratamento", priv_li5:"Fornecer o serviço True Foods (pedidos, cozinha, caixa, delivery, fidelização)",
+    priv_li6:"Responder consultas comerciais e de suporte", priv_li7:"Processar pedidos e comunicações automatizadas via WhatsApp",
+    priv_li8:"Cumprir obrigações legais e regulatórias",
+    priv_h2_4:"4. Dados coletados através da Meta (WhatsApp, Facebook e Instagram)",
+    priv_p3:"Utilizamos as APIs do WhatsApp Business, Messenger e Instagram para operar o bot conversacional da True Foods e prestar atendimento ao cliente. Por meio dessas APIs podemos coletar o identificador do usuário, nome de perfil, conteúdo das mensagens, comentários públicos e data/hora da interação. Não acessamos informações adicionais do perfil além do necessário para responder à consulta ou processar o pedido.",
+    priv_p4:"As mensagens são armazenadas internamente, com acesso restrito ao pessoal autorizado. Não compartilhamos, vendemos nem cedemos essas informações a terceiros para fins comerciais. O uso dessas APIs cumpre os Termos da Plataforma da Meta e suas Políticas para Desenvolvedores.",
+    priv_h2_5:"5. Seus direitos", priv_p5:"Como titular de dados pessoais, você tem o direito de acessar, retificar, eliminar e se opor ao tratamento dos seus dados. Para exercer esses direitos, entre em contato em soporte@truesolutionsgestion.com.",
+    term_h1:"Termos e condições", term_update:"Última atualização: julho de 2026", term_intro:"Ao utilizar a True Foods ou os serviços da True Solutions Gestión, você aceita estes termos.",
+    term_h2_1:"1. Serviço", term_p1:"A True Foods é um sistema de gestão (SaaS) para restaurantes, refeitórios e qualquer estabelecimento gastronômico, que inclui cardápio digital, pedidos, cozinha, caixa, auditoria, delivery, fidelização e mensageria integrada via WhatsApp.",
+    term_h2_2:"2. Uso do serviço", term_p2:"O cliente se compromete a utilizar a plataforma de forma lícita e a não usar o sistema para fins fraudulentos ou que violem direitos de terceiros.",
+    term_h2_3:"3. Planos e pagamentos", term_p3:"A True Foods oferece diferentes planos de assinatura mensal. Os detalhes e condições específicas são informados no momento da contratação.",
+    term_h2_4:"4. Contato", term_p4:"Para dúvidas sobre estes termos, escreva para soporte@truesolutionsgestion.com.",
+    ctrl_h1:"Controle de dados", ctrl_intro:"A True Solutions Gestión permite que você gerencie seus dados pessoais a qualquer momento.",
+    ctrl_h2_1:"1. Como exercer seus direitos",
+    ctrl_li1:"Acessar os dados pessoais que temos sobre você", ctrl_li2:"Solicitar a correção de dados incorretos ou incompletos",
+    ctrl_li3:"Solicitar a exclusão dos seus dados pessoais", ctrl_li4:"Se opor ao tratamento dos seus dados para determinados fins",
+    ctrl_h2_2:"2. Exclusão de dados da Meta (WhatsApp / Instagram / Facebook)",
+    ctrl_p1:"Se você interagiu conosco pelo WhatsApp, Messenger ou Instagram e deseja que excluamos esses dados, envie sua solicitação para soporte@truesolutionsgestion.com informando seu nome de usuário e a rede social pela qual entrou em contato. Processamos as solicitações em um prazo razoável.",
+    ctrl_h2_3:"3. Contato", ctrl_p2:"E-mail: soporte@truesolutionsgestion.com<br>Telefone / WhatsApp: +595 992 102202<br>Endereço: Assunção, Paraguai"
+  }
+};
+
+var originalEs = {};
+function captureOriginalEs(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    originalEs[getKey(el)] = el.innerHTML;
+  });
+}
+function getKey(el){ return el.getAttribute('data-i18n'); }
+
+function applyLang(lang){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = getKey(el);
+    if(lang === 'es'){
+      if(originalEs[key] !== undefined){ el.innerHTML = originalEs[key]; }
+    } else if(translations[lang] && translations[lang][key]){
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.documentElement.lang = lang;
+  localStorage.setItem('tf_lang', lang);
+  ['langSelectDesktop','langSelectMobile','langSelectFooter'].forEach(function(id){
+    var sel = document.getElementById(id);
+    if(sel){ sel.value = lang; }
+  });
+}
+
+function initLang(){
+  captureOriginalEs();
+  var saved = localStorage.getItem('tf_lang') || 'es';
+  applyLang(saved);
+  ['langSelectDesktop','langSelectMobile','langSelectFooter'].forEach(function(id){
+    var sel = document.getElementById(id);
+    if(sel){ sel.addEventListener('change', function(){ applyLang(this.value); }); }
+  });
+}
+
 function showPage(id){
   document.querySelectorAll('.legal-page').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('home').style.display = 'none';
