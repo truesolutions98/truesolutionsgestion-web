@@ -88,12 +88,13 @@ nav{display:flex;align-items:center;gap:28px;}
 .dropdown{
   position:absolute;top:28px;left:50%;transform:translateX(-50%);
   background:var(--navy-mid);border:1px solid var(--navy-border);
-  border-radius:10px;padding:10px;width:200px;
+  border-radius:10px;padding:8px;width:190px;max-height:320px;overflow-y:auto;
   display:none;flex-direction:column;gap:2px;
 }
 .nav-item:hover .dropdown{display:flex;}
 .dropdown a{
   padding:8px 10px;border-radius:6px;font-size:13px;color:var(--text-muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .dropdown a:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 .lang-select{
@@ -101,6 +102,23 @@ nav{display:flex;align-items:center;gap:28px;}
   padding:5px 10px;font-size:12px;color:var(--text-muted);
   background:transparent;
 }
+.lang-picker{position:relative;display:inline-block;}
+.lang-picker-btn{
+  display:flex;align-items:center;gap:6px;border:1px solid var(--navy-border);
+  border-radius:6px;padding:5px 10px;font-size:12px;color:var(--text-muted);
+  background:transparent;cursor:pointer;
+}
+.lang-picker-list{
+  display:none;position:absolute;top:32px;right:0;z-index:1001;
+  background:var(--navy-mid);border:1px solid var(--navy-border);border-radius:8px;
+  padding:6px;min-width:150px;flex-direction:column;gap:2px;
+}
+.lang-picker-list.open{display:flex;}
+.lang-picker-item{
+  display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;
+  font-size:12px;color:var(--text-muted);cursor:pointer;white-space:nowrap;
+}
+.lang-picker-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 .burger-btn{display:none;background:transparent;flex-direction:column;gap:5px;padding:6px;}
 .burger-btn span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;}
 .mobile-nav{
@@ -339,7 +357,12 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
     <div class="nav-item" onclick="showPage('cobranza')" data-i18n="nav_cobranza">True Cobranza</div>
     <div class="nav-item" onclick="showPage('quienes-somos')" data-i18n="nav_quienes">Quiénes somos</div>
     <div class="nav-item" onclick="showPage('contacto')" data-i18n="nav_contacto">Contacto</div>
-    <select class="lang-select" id="langSelectDesktop"><option value="es">ES</option><option value="en">EN</option><option value="pt">PT</option></select>
+    <div class="lang-picker" id="langPickerDesktop">
+      <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerDesktop')" type="button">
+        <span class="flag-current"></span><span class="code-current">ES</span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
+      </button>
+      <div class="lang-picker-list"></div>
+    </div>
   </nav>
   <button class="burger-btn" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
 </header>
@@ -361,7 +384,12 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
   <a onclick="showPage('quienes-somos');toggleMobileNav()" data-i18n="nav_quienes">Quiénes somos</a>
   <a onclick="showPage('contacto');toggleMobileNav()" data-i18n="nav_contacto">Contacto</a>
   <div style="padding:12px 6px;">
-    <select class="lang-select" id="langSelectMobile"><option value="es">Español (ES)</option><option value="en">English (EN)</option><option value="pt">Português (PT)</option></select>
+    <div class="lang-picker" id="langPickerMobile" style="width:100%;">
+      <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerMobile')" type="button" style="width:100%;justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:6px;"><span class="flag-current"></span><span class="code-current">Español (ES)</span></span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
+      </button>
+      <div class="lang-picker-list" style="width:100%;left:0;right:auto;"></div>
+    </div>
   </div>
 </div>
 
@@ -474,7 +502,7 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
 
       <a href="https://menu.truesolutionsgestion.com/registro" target="_blank" class="cta-box">
         <div style="background:#fff;padding:5px;border-radius:8px;">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https://menu.truesolutionsgestion.com/registro" alt="Código QR para registrar tu negocio" width="70" height="70">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https://menu.truesolutionsgestion.com/registro" alt="Código QR para registrar tu negocio" width="100" height="100">
         </div>
         <div class="cta-text">
           <p data-i18n="cta_title">Registrá tu negocio</p>
@@ -542,7 +570,7 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
       </a>
       <a href="https://menu.truesolutionsgestion.com/registro" target="_blank">
         <div style="background:#fff;padding:6px;border-radius:10px;display:inline-block;">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https://menu.truesolutionsgestion.com/registro" alt="Código QR para registrar tu negocio" width="80" height="80">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https://menu.truesolutionsgestion.com/registro" alt="Código QR para registrar tu negocio" width="110" height="110">
         </div>
       </a>
     </div>
@@ -559,7 +587,12 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
         True Solutions Gestión
       </div>
       <p style="margin-bottom:8px;" data-i18n="footer_lang">Seleccionar idioma:</p>
-      <select class="lang-select" id="langSelectFooter" style="width:140px;"><option value="es">Español (ES)</option><option value="en">English (EN)</option><option value="pt">Português (PT)</option></select>
+      <div class="lang-picker" id="langPickerFooter">
+        <button class="lang-picker-btn" onclick="toggleLangPicker('langPickerFooter')" type="button" style="width:140px;justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:6px;"><span class="flag-current"></span><span class="code-current">Español (ES)</span></span> <i class="ti ti-chevron-down" style="font-size:12px;"></i>
+        </button>
+        <div class="lang-picker-list" style="width:150px;left:0;right:auto;"></div>
+      </div>
     </div>
     <div class="footer-col">
       <p class="col-title" data-i18n="footer_compania">Compañía</p>
@@ -587,7 +620,7 @@ footer{background:var(--navy-deep);color:var(--white);padding:56px 6% 32px;}
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© Copyright 2026 True Solutions Gestión. Todos los derechos reservados. | Asunción, Paraguay | +595 992 102202</p>
+    <p style="color:var(--text-muted);line-height:1.6;">© Copyright 2026 <span style="color:var(--accent);font-weight:600;">True Solutions Gestión</span>. Todos los derechos reservados. | <span style="color:var(--accent);font-weight:600;">Asunción, Paraguay</span> | <span style="color:var(--accent);font-weight:600;">+595 9760286 742</span></p>
   </div>
 </footer>
 
@@ -895,7 +928,48 @@ var translations = {
   }
 };
 
-var originalEs = {};
+var flagSvg = {
+  es:'<svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="4" fill="#C60B1E"/><rect y="4" width="16" height="4" fill="#FFC400"/><rect y="8" width="16" height="4" fill="#C60B1E"/></svg>',
+  en:'<svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#B22234"/><rect width="16" height="0.92" y="0.92" fill="#fff"/><rect width="16" height="0.92" y="2.77" fill="#fff"/><rect width="16" height="0.92" y="4.62" fill="#fff"/><rect width="7" height="6.5" fill="#3C3B6E"/></svg>',
+  pt:'<svg width="16" height="12" viewBox="0 0 16 12"><rect width="16" height="12" fill="#009C3B"/><polygon points="8,1.5 15,6 8,10.5 1,6" fill="#FFDF00"/><circle cx="8" cy="6" r="2.6" fill="#002776"/></svg>'
+};
+var langLabels = {
+  short: {es:'ES', en:'EN', pt:'PT'},
+  long: {es:'Español (ES)', en:'English (EN)', pt:'Português (PT)'}
+};
+var langPickerIds = ['langPickerDesktop','langPickerMobile','langPickerFooter'];
+
+function buildLangPickers(){
+  langPickerIds.forEach(function(id){
+    var picker = document.getElementById(id);
+    if(!picker) return;
+    var list = picker.querySelector('.lang-picker-list');
+    var useLong = (id !== 'langPickerDesktop');
+    list.innerHTML = '';
+    ['es','en','pt'].forEach(function(code){
+      var item = document.createElement('div');
+      item.className = 'lang-picker-item';
+      item.innerHTML = flagSvg[code] + '<span>' + (useLong ? langLabels.long[code] : langLabels.short[code]) + '</span>';
+      item.onclick = function(){ applyLang(code); closeAllLangPickers(); };
+      list.appendChild(item);
+    });
+  });
+}
+
+function toggleLangPicker(id){
+  var isOpen = document.getElementById(id).querySelector('.lang-picker-list').classList.contains('open');
+  closeAllLangPickers();
+  if(!isOpen){ document.getElementById(id).querySelector('.lang-picker-list').classList.add('open'); }
+}
+function closeAllLangPickers(){
+  langPickerIds.forEach(function(id){
+    var p = document.getElementById(id);
+    if(p){ p.querySelector('.lang-picker-list').classList.remove('open'); }
+  });
+}
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.lang-picker')){ closeAllLangPickers(); }
+});
 function captureOriginalEs(){
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     originalEs[getKey(el)] = el.innerHTML;
@@ -914,20 +988,20 @@ function applyLang(lang){
   });
   document.documentElement.lang = lang;
   localStorage.setItem('tf_lang', lang);
-  ['langSelectDesktop','langSelectMobile','langSelectFooter'].forEach(function(id){
-    var sel = document.getElementById(id);
-    if(sel){ sel.value = lang; }
+  langPickerIds.forEach(function(id){
+    var picker = document.getElementById(id);
+    if(!picker) return;
+    var useLong = (id !== 'langPickerDesktop');
+    picker.querySelector('.flag-current').innerHTML = flagSvg[lang];
+    picker.querySelector('.code-current').textContent = useLong ? langLabels.long[lang] : langLabels.short[lang];
   });
 }
 
 function initLang(){
   captureOriginalEs();
+  buildLangPickers();
   var saved = localStorage.getItem('tf_lang') || 'es';
   applyLang(saved);
-  ['langSelectDesktop','langSelectMobile','langSelectFooter'].forEach(function(id){
-    var sel = document.getElementById(id);
-    if(sel){ sel.addEventListener('change', function(){ applyLang(this.value); }); }
-  });
 }
 
 function showPage(id){
