@@ -1049,7 +1049,7 @@ body.legal-view .legal-page.active{display:block;}
 <a data-i18n="footer_aup" href="#uso-aceptable" onclick="return navigateTo('uso-aceptable')">Política de Uso Aceptable</a>
 <a data-i18n="footer_wap" href="#whatsapp-business" onclick="return navigateTo('whatsapp-business')">Uso de WhatsApp Business</a>
 <a data-i18n="footer_ia" href="#asistente-ia" onclick="return navigateTo('asistente-ia')">Uso del Asistente Tute</a>
-<a href="#" id="privacyPrefsLink" onclick="openConsentManager(); return false;">Preferencias de privacidad</a>
+<a href="#" id="privacyPrefsLink" onclick="openConsentManager(); return false;">Preferencias de cookies y privacidad</a>
 </div>
 </div>
 <div class="footer-social">
@@ -1124,7 +1124,7 @@ body.legal-view .legal-page.active{display:block;}
 <p data-i18n="priv_p3">Utilizamos la API de WhatsApp Business, Messenger e Instagram para operar la experiencia conversacional de Tute Apps y brindar atención al cliente. A través de estas APIs podemos recopilar el identificador de usuario, nombre de perfil, contenido de los mensajes, comentarios públicos y fecha/hora de interacción. No accedemos a información adicional del perfil más allá de lo necesario para responder la consulta o procesar la operación.</p>
 <p data-i18n="priv_p4">Los mensajes se almacenan de forma interna, con acceso restringido al personal autorizado. No compartimos, vendemos ni cedemos esta información a terceros con fines comerciales. El uso de estas APIs cumple con las Condiciones de la Plataforma de Meta y sus Políticas para Desarrolladores.</p>
 <h2 id="privacyMeasurementTitle">5. Medición y publicidad digital</h2>
-<p id="privacyMeasurementText">Con tu autorización, utilizamos Google Analytics y Meta Pixel para medir visitas, interacciones y conversiones de la web. Estas tecnologías pueden utilizar cookies o identificadores similares para elaborar métricas y mejorar campañas publicitarias. Podés aceptar o rechazar esta medición y cambiar tu elección en cualquier momento desde “Preferencias de privacidad”.</p>
+<p id="privacyMeasurementText">Con tu autorización, utilizamos Google Analytics y Meta Pixel para medir visitas, interacciones y conversiones de la web. Estas tecnologías pueden utilizar cookies o identificadores similares para elaborar métricas y mejorar campañas publicitarias. Podés aceptar o rechazar esta medición y cambiar tu elección en cualquier momento desde “Preferencias de cookies y privacidad”.</p>
 <h2 data-i18n="priv_h2_5">6. Sus derechos</h2>
 <p data-i18n="priv_p5">Como titular de datos personales, tenés derecho a acceder, rectificar, suprimir y oponerte al tratamiento de tus datos. Buscamos alinear nuestro tratamiento con los principios aplicables de la Ley Nº 7593/2025 “De Protección de Datos Personales en la República del Paraguay”. Para ejercer estos derechos, contactanos en soporte@truesolutionsgestion.com.</p>
 <a class="back-link" data-i18n="back_link" href="#home" onclick="return goBackHome()">← Volver al inicio</a>
@@ -1743,15 +1743,15 @@ function submitDemoForm(event){
   .clients-track .client-logo figcaption{font-size:10px!important}
 }
 </style>
-<div class="tute-consent" id="tuteConsent" role="dialog" aria-live="polite" aria-label="Preferencias de privacidad">
+<div class="tute-consent" id="tuteConsent" role="dialog" aria-live="polite" aria-label="Preferencias de cookies y privacidad">
   <div class="tute-consent-row">
     <div class="tute-consent-icon"><i class="ti ti-shield-lock"></i></div>
     <div class="tute-consent-copy">
-      <strong class="tute-consent-title" id="consentTitle">Tu privacidad, bajo tu control</strong>
-      <div class="tute-consent-text" id="consentText">Usamos medición de Google Analytics y Meta Pixel únicamente si la autorizás, para entender el rendimiento de la web y de nuestras campañas. <a href="#privacidad" onclick="navigateTo('privacidad')">Ver Política de privacidad</a>.</div>
+      <strong class="tute-consent-title" id="consentTitle">Preferencias de cookies y privacidad</strong>
+      <div class="tute-consent-text" id="consentText"><a href="#privacidad" onclick="navigateTo('privacidad')">Ver Política de privacidad</a>.</div>
       <div class="tute-consent-actions">
         <button class="tute-consent-btn secondary" id="consentReject" type="button">Solo necesarias</button>
-        <button class="tute-consent-btn primary" id="consentAccept" type="button">Aceptar medición</button>
+        <button class="tute-consent-btn primary" id="consentAccept" type="button">Aceptar todas</button>
       </div>
     </div>
   </div>
@@ -1764,9 +1764,9 @@ function submitDemoForm(event){
   var loaded=false;
 
   var copy={
-    es:{title:'Tu privacidad, bajo tu control',text:'Usamos medición de Google Analytics y Meta Pixel únicamente si la autorizás, para entender el rendimiento de la web y de nuestras campañas.',privacy:'Ver Política de privacidad',reject:'Solo necesarias',accept:'Aceptar medición',prefs:'Preferencias de privacidad',measureTitle:'5. Medición y publicidad digital',measureText:'Con tu autorización, utilizamos Google Analytics y Meta Pixel para medir visitas, interacciones y conversiones de la web. Estas tecnologías pueden utilizar cookies o identificadores similares para elaborar métricas y mejorar campañas publicitarias. Podés aceptar o rechazar esta medición y cambiar tu elección en cualquier momento desde “Preferencias de privacidad”.'},
-    en:{title:'Your privacy, under your control',text:'We use Google Analytics and Meta Pixel measurement only if you authorize it, to understand website and campaign performance.',privacy:'View Privacy Policy',reject:'Necessary only',accept:'Allow measurement',prefs:'Privacy preferences',measureTitle:'5. Measurement and digital advertising',measureText:'With your authorization, we use Google Analytics and Meta Pixel to measure website visits, interactions and conversions. These technologies may use cookies or similar identifiers to produce metrics and improve advertising campaigns. You can accept or reject this measurement and change your choice at any time through “Privacy preferences”.'},
-    pt:{title:'Sua privacidade, sob seu controle',text:'Usamos a medição do Google Analytics e Meta Pixel somente se você autorizar, para entender o desempenho do site e das campanhas.',privacy:'Ver Política de Privacidade',reject:'Somente necessárias',accept:'Aceitar medição',prefs:'Preferências de privacidade',measureTitle:'5. Medição e publicidade digital',measureText:'Com sua autorização, usamos Google Analytics e Meta Pixel para medir visitas, interações e conversões do site. Essas tecnologias podem usar cookies ou identificadores semelhantes para produzir métricas e melhorar campanhas publicitárias. Você pode aceitar ou rejeitar essa medição e alterar sua escolha a qualquer momento em “Preferências de privacidade”.'}
+    es:{title:'Preferencias de cookies y privacidad',text:'',privacy:'Ver Política de privacidad',reject:'Solo necesarias',accept:'Aceptar todas',prefs:'Preferencias de cookies y privacidad',measureTitle:'5. Medición y publicidad digital',measureText:'Con tu autorización, utilizamos Google Analytics y Meta Pixel para medir visitas, interacciones y conversiones de la web. Estas tecnologías pueden utilizar cookies o identificadores similares para elaborar métricas y mejorar campañas publicitarias. Podés aceptar o rechazar esta medición y cambiar tu elección en cualquier momento desde “Preferencias de cookies y privacidad”.'},
+    en:{title:'Cookie and privacy preferences',text:'',privacy:'View Privacy Policy',reject:'Necessary only',accept:'Accept all',prefs:'Cookie and privacy preferences',measureTitle:'5. Measurement and digital advertising',measureText:'With your authorization, we use Google Analytics and Meta Pixel to measure website visits, interactions and conversions. These technologies may use cookies or similar identifiers to produce metrics and improve advertising campaigns. You can accept or reject this measurement and change your choice at any time through “Cookie and privacy preferences”.'},
+    pt:{title:'Preferências de cookies e privacidade',text:'Usamos a medição do Google Analytics e Meta Pixel somente se você autorizar, para entender o desempenho do site e das campanhas.',privacy:'Ver Política de Privacidade',reject:'Somente necessárias',accept:'Aceitar todas',prefs:'Preferências de cookies e privacidade',measureTitle:'5. Medição e publicidade digital',measureText:'Com sua autorização, usamos Google Analytics e Meta Pixel para medir visitas, interações e conversões do site. Essas tecnologias podem usar cookies ou identificadores semelhantes para produzir métricas e melhorar campanhas publicitárias. Você pode aceitar ou rejeitar essa medição e alterar sua escolha a qualquer momento em “Preferências de cookies e privacidade”.'}
   };
 
   function lang(){ var l=(document.documentElement.lang||'es').toLowerCase(); return l.indexOf('pt')===0?'pt':(l.indexOf('en')===0?'en':'es'); }
